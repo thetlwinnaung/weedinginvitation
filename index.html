@@ -56,7 +56,6 @@ main.open{display:block;animation:fade .9s ease}@keyframes fade{from{opacity:0;t
 .detail-label{font-size:12px;color:#9a7544;letter-spacing:2px;margin-top:18px}.detail-value{font-size:16px;line-height:2;margin-top:7px}.map-btn{display:inline-block;text-decoration:none;margin-top:22px;background:#2b1b11;color:#f7e6c2;padding:12px 22px;font-size:13px}
 .rsvp{background:var(--paper)}.rsvp-form{max-width:520px;margin:28px auto 0;display:grid;gap:13px;text-align:left}.rsvp-form label{font-size:13px;color:#6f5942}.rsvp-form input,.rsvp-form select,.rsvp-form textarea{width:100%;padding:12px;border:1px solid #d6c5a9;background:#fffdf8;color:#24170f;border-radius:0;margin-top:6px}.rsvp-form button{padding:14px;background:#2b1b11;color:#f7e6c2;border:0;cursor:pointer}.small-note{font-size:11px;color:#887762;line-height:1.8;text-align:center;margin-top:15px}
 footer{background:#1b110b;color:#d9c49f;text-align:center;padding:36px 18px}.footer-names{font-family:'Cormorant Garamond',serif;font-size:31px;color:#f4dfb5}
-.music{position:fixed;right:16px;bottom:16px;z-index:10;border:1px solid #b48b50;background:#24170f;color:#f6e4c2;padding:10px 14px;border-radius:30px;font-size:12px;cursor:pointer}
 @media(max-width:520px){.couple-profiles{grid-template-columns:1fr;gap:10px}.profile-divider{font-size:25px}.profile{padding:17px 12px}.section{padding:60px 17px}.count-grid{gap:7px}.count-box{padding:15px 4px}.count-num{font-size:34px}.detail-card{padding:27px 16px}.names{font-size:49px}}
 </style>
 </head>
@@ -69,7 +68,7 @@ footer{background:#1b110b;color:#d9c49f;text-align:center;padding:36px 18px}.foo
   <div class="names">Thet Lwin Naung <span class="amp">&amp;</span> Zar Ni Aung</div>
   <div class="date-line">21 · 02 · 2027</div>
   <p style="font-size:14px;line-height:2;color:#ead9b8">မင်္ဂလာဦး ဖိတ်ကြားလွှာ</p>
-  <label class="invite-btn" for="open-invitation" role="button" tabindex="0">OPEN INVITATION</label>
+  <label class="invite-btn" for="open-invitation" role="button" tabindex="0" onclick="openInvitation()">OPEN INVITATION</label>
   <div class="hint">ဖိတ်စာဖွင့်ရန် နှိပ်ပါ</div>
  </div>
 </section>
@@ -141,10 +140,16 @@ footer{background:#1b110b;color:#d9c49f;text-align:center;padding:36px 18px}.foo
  </section>
  <footer><div class="ornament">❧ ✦ ❧</div><div class="footer-names">Thet Lwin Naung &amp; Zar Ni Aung</div><p style="font-size:12px;letter-spacing:2px">21 FEBRUARY 2027 · MANDALAY</p><p style="font-size:12px">With love and gratitude</p></footer>
 </main>
-<audio id="weddingMusic" src="/wedding-song-2027-fixed.mp3" preload="none" loop></audio>
-<button class="music" id="musicBtn" onclick="toggleMusic()" style="display:none">♫ Music: Off</button>
+<audio id="weddingMusic" src="/wedding-song-2027-fixed.mp3" preload="auto" loop></audio>
 <script>
-function openInvitation(){document.getElementById('open-invitation').checked=true;document.getElementById('invitation').classList.add('open');document.getElementById('cover').style.display='none';document.getElementById('musicBtn').style.display='block';window.scrollTo(0,0)}
+function openInvitation(){
+  document.getElementById('open-invitation').checked=true;
+  document.getElementById('invitation').classList.add('open');
+  document.getElementById('cover').style.display='none';
+  window.scrollTo(0,0);
+  const audio=document.getElementById('weddingMusic');
+  audio.play().catch(()=>console.warn('Browser blocked audio playback.'));
+}
 // Live countdown to 21 February 2027, 9:00 AM Myanmar Time (UTC+06:30).
 (function startWeddingCountdown(){
   const target = Date.parse('2027-02-21T09:00:00+06:30');
@@ -199,15 +204,6 @@ async function sendRSVP(e){
     submit.disabled = false; submit.textContent = 'SEND RSVP';
   }
 }
-async function toggleMusic(){
-  const audio = document.getElementById('weddingMusic');
-  const btn = document.getElementById('musicBtn');
-  if(audio.paused){
-    try { await audio.play(); btn.textContent = '♫ Music: On'; }
-    catch(err) { btn.textContent = '♫ Music unavailable'; alert('wedding-music.mp3 ဖိုင်ကို Website ထဲ Upload လုပ်ပေးပါ။'); }
-  } else {
-    audio.pause(); btn.textContent = '♫ Music: Off';
-  }
-}
+
 </script>
 </body></html>
